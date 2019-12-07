@@ -32,6 +32,19 @@ MarkerResult = namedtuple('MarkerResult', ['accident_markers', 'rsa_markers', 't
 logging.basicConfig(level=logging.DEBUG)
 db_encoding = 'utf-8'
 
+class Account(Base):
+    __tablename__ = "account"
+    id = Column(Integer(), primary_key=True, index=True)
+    name = Column(Text(), nullable=True)
+    description = Column(Text(), nullable=True)
+
+    def serialize(self):
+        return {
+            "id": str(self.id),
+            "name": self.name,
+            "description": self.description
+        }
+
 class Point(object):
     id = Column(Integer(), primary_key=True)
     latitude = Column(Float())
