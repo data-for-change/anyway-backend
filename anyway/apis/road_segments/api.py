@@ -4,7 +4,7 @@ from anyway import db
 from anyway.apis.common.models import RoadSegment
 from flask_restplus import reqparse
 
-road_segments_api = Namespace('road_segments', description='Polygons API')
+road_segments_api = Namespace('road_segments', description='Road Segments API')
 
 @road_segments_api.route('/get_road_segment')
 class GetRoadSegment(Resource):
