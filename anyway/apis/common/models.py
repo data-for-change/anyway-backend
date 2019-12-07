@@ -21,6 +21,7 @@ from sqlalchemy import (Column,
                         )
 
 from sqlalchemy.orm import relationship, load_only
+from sqlalchemy.dialects import postgresql
 
 from anyway.core.localization import Localization
 from anyway.core.utils import Utils
@@ -32,17 +33,207 @@ MarkerResult = namedtuple('MarkerResult', ['accident_markers', 'rsa_markers', 't
 logging.basicConfig(level=logging.DEBUG)
 db_encoding = 'utf-8'
 
-class Account(Base):
-    __tablename__ = "account"
+class RoadSegment(Base):
+    __tablename__ = "road_segments"
     id = Column(Integer(), primary_key=True, index=True)
-    name = Column(Text(), nullable=True)
-    description = Column(Text(), nullable=True)
+    provider_and_id = Column(BigInteger(), nullable=True)
+    provider_code = Column(Integer(), nullable=True)
+    provider_code_hebrew = Column(Text(), nullable=True)
+    file_type_police = Column(Integer(), nullable=True)
+    accident_type = Column(Integer(), nullable=True)
+    accident_type_hebrew = Column(Text(), nullable=True)
+    accident_severity = Column(Integer(), nullable=True)
+    accident_severity_hebrew = Column(Text(), nullable=True)
+    accident_timestamp = Column(Text(), nullable=True)
+    location_accuracy = Column(Text(), nullable=True)
+    location_accuracy_hebrew = Column(Text(), nullable=True)
+    road_type = Column(Integer(), nullable=True)
+    road_type_hebrew = Column(Text(), nullable=True)
+    road_shape = Column(Integer(), nullable=True)
+    road_shape_hebrew = Column(Text(), nullable=True)
+    day_type = Column(Integer(), nullable=True)
+    day_type_hebrew = Column(Text(), nullable=True)
+    police_unit = Column(Integer(), nullable=True)
+    police_unit_hebrew = Column(Text(), nullable=True)
+    one_lane = Column(Integer(), nullable=True)
+    one_lane_hebrew = Column(Text(), nullable=True)
+    multi_lane = Column(Integer(), nullable=True)
+    multi_lane_hebrew = Column(Text(), nullable=True)
+    speed_limit = Column(Integer(), nullable=True)
+    speed_limit_hebrew = Column(Text(), nullable=True)
+    road_intactness = Column(Integer(), nullable=True)
+    road_intactness_hebrew = Column(Text(), nullable=True)
+    road_width = Column(Integer(), nullable=True)
+    road_width_hebrew = Column(Text(), nullable=True)
+    road_sign = Column(Integer(), nullable=True)
+    road_sign_hebrew = Column(Text(), nullable=True)
+    road_light = Column(Integer(), nullable=True)
+    road_light_hebrew = Column(Text(), nullable=True)
+    road_control = Column(Integer(), nullable=True)
+    road_control_hebrew = Column(Text(), nullable=True)
+    weather = Column(Integer(), nullable=True)
+    weather_hebrew = Column(Text(), nullable=True)
+    road_surface = Column(Integer(), nullable=True)
+    road_surface_hebrew = Column(Text(), nullable=True)
+    road_object = Column(Integer(), nullable=True)
+    road_object_hebrew = Column(Text(), nullable=True)
+    object_distance = Column(Integer(), nullable=True)
+    object_distance_hebrew = Column(Text(), nullable=True)
+    didnt_cross = Column(Integer(), nullable=True)
+    didnt_cross_hebrew = Column(Text(), nullable=True)
+    cross_mode = Column(Integer(), nullable=True)
+    cross_mode_hebrew = Column(Text(), nullable=True)
+    cross_location = Column(Integer(), nullable=True)
+    cross_location_hebrew = Column(Text(), nullable=True)
+    cross_direction = Column(Integer(), nullable=True)
+    cross_direction_hebrew = Column(Text(), nullable=True)
+    road1 = Column(Integer(), nullable=True)
+    road2 = Column(Integer(), nullable=True)
+    km = Column(Float(), nullable=True)
+    km_raw = Column(Float(), nullable=True)
+    km_accurate = Column(Text(), nullable=True)
+    yishuv_symbol = Column(Integer(), nullable=True)
+    yishuv_name = Column(Text(), nullable=True)
+    geo_area = Column(Integer(), nullable=True)
+    geo_area_hebrew = Column(Text(), nullable=True)
+    day_night = Column(Integer(), nullable=True)
+    day_night_hebrew = Column(Text(), nullable=True)
+    day_in_week = Column(Integer(), nullable=True)
+    day_in_week_hebrew = Column(Text(), nullable=True)
+    traffic_light = Column(Integer(), nullable=True)
+    traffic_light_hebrew = Column(Text(), nullable=True)
+    region = Column(Integer(), nullable=True)
+    region_hebrew = Column(Text(), nullable=True)
+    district = Column(Integer(), nullable=True)
+    district_hebrew = Column(Text(), nullable=True)
+    natural_area = Column(Integer(), nullable=True)
+    natural_area_hebrew = Column(Text(), nullable=True)
+    municipal_status = Column(Integer(), nullable=True)
+    municipal_status_hebrew = Column(Text(), nullable=True)
+    yishuv_shape = Column(Integer(), nullable=True)
+    yishuv_shape_hebrew = Column(Text(), nullable=True)
+    street1 = Column(Integer(), nullable=True)
+    street1_hebrew = Column(Text(), nullable=True)
+    street2 = Column(Integer(), nullable=True)
+    street2_hebrew = Column(Text(), nullable=True)
+    house_number = Column(Integer(), nullable=True)
+    non_urban_intersection = Column(Integer(), nullable=True)
+    non_urban_intersection_hebrew = Column(Text(), nullable=True)
+    non_urban_intersection_by_junction_number = Column(Text(), nullable=True)
+    urban_intersection = Column(Integer(), nullable=True)
+    accident_year = Column(Integer(), nullable=True)
+    accident_month = Column(Integer(), nullable=True)
+    accident_day = Column(Integer(), nullable=True)
+    accident_hour_raw = Column(Integer(), nullable=True)
+    accident_hour_raw_hebrew = Column(Text(), nullable=True)
+    accident_hour = Column(Integer(), nullable=True)
+    accident_minute = Column(Integer(), nullable=True)
+    geom = Column(Text(), nullable=True)
+    longitude = Column(postgresql.DOUBLE_PRECISION(precision=53), nullable=True)
+    latitude = Column(postgresql.DOUBLE_PRECISION(precision=53), nullable=True)
+    x = Column(Float(), nullable=True)
+    y = Column(Float(), nullable=True)
 
     def serialize(self):
         return {
-            "id": str(self.id),
-            "name": self.name,
-            "description": self.description
+            "id": self.id,
+            "provider_and_id": self.provider_and_id,
+            "provider_code": self.provider_code,
+            "provider_code_hebrew": self.provider_code_hebrew,
+            "file_type_police": self.file_type_police,
+            "accident_type": self.accident_type,
+            "accident_type_hebrew": self.accident_type_hebrew,
+            "accident_severity": self.accident_severity,
+            "accident_severity_hebrew": self.accident_severity_hebrew,
+            "accident_timestamp": self.accident_timestamp,
+            "location_accuracy": self.location_accuracy,
+            "location_accuracy_hebrew": self.location_accuracy_hebrew,
+            "road_type": self.road_type,
+            "road_type_hebrew": self.road_type_hebrew,
+            "road_shape": self.road_shape,
+            "road_shape_hebrew": self.road_shape_hebrew,
+            "day_type": self.day_type,
+            "day_type_hebrew": self.day_type_hebrew,
+            "police_unit": self.police_unit,
+            "police_unit_hebrew": self.police_unit_hebrew,
+            "one_lane": self.one_lane,
+            "one_lane_hebrew": self.one_lane_hebrew,
+            "multi_lane": self.multi_lane,
+            "multi_lane_hebrew": self.multi_lane_hebrew,
+            "speed_limit": self.speed_limit,
+            "speed_limit_hebrew": self.speed_limit_hebrew,
+            "road_intactness": self.road_intactness,
+            "road_intactness_hebrew": self.road_intactness_hebrew,
+            "road_width": self.road_width,
+            "road_width_hebrew": self.road_width_hebrew,
+            "road_sign": self.road_sign,
+            "road_sign_hebrew": self.road_sign_hebrew,
+            "road_light": self.road_light,
+            "road_light_hebrew": self.road_light_hebrew,
+            "road_control": self.road_control,
+            "road_control_hebrew": self.road_control_hebrew,
+            "weather": self.weather,
+            "weather_hebrew": self.weather_hebrew,
+            "road_surface": self.road_surface,
+            "road_surface_hebrew": self.road_surface_hebrew,
+            "road_object": self.road_object,
+            "road_object_hebrew": self.road_object_hebrew,
+            "object_distance": self.object_distance,
+            "object_distance_hebrew": self.object_distance_hebrew,
+            "didnt_cross": self.didnt_cross,
+            "didnt_cross_hebrew": self.didnt_cross_hebrew,
+            "cross_mode": self.cross_mode,
+            "cross_mode_hebrew": self.cross_mode_hebrew,
+            "cross_location": self.cross_location,
+            "cross_location_hebrew": self.cross_location_hebrew,
+            "cross_direction": self.cross_direction,
+            "cross_direction_hebrew": self.cross_direction_hebrew,
+            "road1": self.road1,
+            "road2": self.road2,
+            "km": self.km,
+            "km_raw": self.km_raw,
+            "km_accurate": self.km_accurate,
+            "yishuv_symbol": self.yishuv_symbol,
+            "yishuv_name": self.yishuv_name,
+            "geo_area": self.geo_area,
+            "geo_area_hebrew": self.geo_area_hebrew,
+            "day_night": self.day_night,
+            "day_night_hebrew": self.day_night_hebrew,
+            "day_in_week": self.day_in_week,
+            "day_in_week_hebrew": self.day_in_week_hebrew,
+            "traffic_light": self.traffic_light,
+            "traffic_light_hebrew": self.traffic_light_hebrew,
+            "region": self.region,
+            "region_hebrew": self.region_hebrew,
+            "district": self.district,
+            "district_hebrew": self.district_hebrew,
+            "natural_area": self.natural_area,
+            "natural_area_hebrew": self.natural_area_hebrew,
+            "municipal_status": self.municipal_status,
+            "municipal_status_hebrew": self.municipal_status_hebrew,
+            "yishuv_shape": self.yishuv_shape,
+            "yishuv_shape_hebrew": self.yishuv_shape_hebrew,
+            "street1": self.street1,
+            "street1_hebrew": self.street1_hebrew,
+            "street2": self.street2,
+            "street2_hebrew": self.street2_hebrew,
+            "house_number": self.house_number,
+            "non_urban_intersection": self.non_urban_intersection,
+            "non_urban_intersection_hebrew": self.non_urban_intersection_hebrew,
+            "non_urban_intersection_by_junction_number": self.non_urban_intersection_by_junction_number,
+            "urban_intersection": self.urban_intersection,
+            "accident_year": self.accident_year,
+            "accident_month": self.accident_month,
+            "accident_day": self.accident_day,
+            "accident_hour_raw": self.accident_hour_raw,
+            "accident_hour_raw_hebrew": self.accident_hour_raw_hebrew,
+            "accident_hour": self.accident_hour,
+            "accident_minute": self.accident_minute,
+            "geom": self.geom,
+            "longitude": self.longitude,
+            "latitude": self.latitude,
+            "x": self.x,
+            "y": self.y
         }
 
 class Point(object):
