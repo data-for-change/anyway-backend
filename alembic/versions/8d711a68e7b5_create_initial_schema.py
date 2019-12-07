@@ -19,7 +19,7 @@ depends_on = None
 
 def upgrade():
     op.create_table(
-        'polygon',
+        'road_segments',
         sa.Column('id', sa.Integer(), nullable=False, primary_key=True),
         sa.Column('provider_and_id', sa.BigInteger(), nullable=True),
         sa.Column('provider_code', sa.Integer(), nullable=False),
@@ -122,4 +122,4 @@ def upgrade():
 
 
 def downgrade():
-    op.drop_table('polygon')
+    op.drop_table('road_segments')
