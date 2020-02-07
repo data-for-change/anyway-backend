@@ -28,7 +28,7 @@ feedparser
 Flask
 Flask-Admin
 Flask-Assets
-Flask-Babel
+Flask-Babel==0.12.2
 Flask-BabelEx
 Flask-Compress
 Flask-Cors
@@ -129,7 +129,7 @@ vine
 w3lib
 wcwidth
 webassets
-Werkzeug
+Werkzeug==0.16.1
 wrapt
 WTForms
 xlrd
