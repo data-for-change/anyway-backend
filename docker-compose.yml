@@ -6,6 +6,8 @@ services:
     build: .
     ports:
       - "5000:5000"
+    args:
+      - DATABASE_URL=${DATABASE_URL}
     environment:
       - DATABASE_URL=${DATABASE_URL}
     volumes:
