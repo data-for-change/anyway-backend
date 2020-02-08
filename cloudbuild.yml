@@ -1,7 +1,8 @@
 steps:
 # build anyway-backend image
 - name: 'docker/compose'
-  args: ['build', '--build-arg DATABASE_URL=$DATABASE_URL']
+  entrypoint: 'bash'
+  args: ['-c', 'docker-compose build --build-arg DATABASE_URL=$$DATABASE_URL .']
   secretEnv: ['DATABASE_URL']
   env:
   - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
