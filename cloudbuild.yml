@@ -1,8 +1,7 @@
 steps:
-# build anyway-backend image
-- name: 'docker/compose'
-  entrypoint: 'bash'
-  args: ['-c', 'docker-compose build --build-arg DATABASE_URL=$$DATABASE_URL .']
+# build anyway-backend project
+- name: 'gcr.io/cloud-builders/docker-compose'
+  args: ['up --build --build-arg DATABASE_URL=$$DATABASE_URL']
   secretEnv: ['DATABASE_URL']
   env:
   - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
