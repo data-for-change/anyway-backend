@@ -28,13 +28,13 @@ services:
       - db_data:/var/lib/postgresql/data  
     restart: always
     
-  # migration:
-    # image: ${ANYWAY_BACKEND_IMG}
-    # command: ["./wait-for-postgres.sh", "db","alembic", "upgrade", "head"]
-    # environment:
-      # - DATABASE_URL=${DATABASE_URL}
-    # depends_on:
-      # - db
+  migration:
+    image: ${ANYWAY_BACKEND_IMG}
+    command: ["sh", "./wait-for-postgres.sh", "db","alembic", "upgrade", "head"]
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - db
     
 volumes: 
   db_data:
