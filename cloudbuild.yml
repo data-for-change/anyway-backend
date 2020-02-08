@@ -4,13 +4,13 @@ steps:
   entrypoint: 'sh'
   args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA']
 # args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA --build-arg DATABASE_URL=$$DATABASE_URL']
-#  secretEnv: ['DATABASE_URL']
+# secretEnv: ['DATABASE_URL']
   env:
   - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
   - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
 - name: 'docker/compose'
   args: ['up', '-d']
-#  secretEnv: ['DATABASE_URL']
+# secretEnv: ['DATABASE_URL']
   env:
   - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
   - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
@@ -39,9 +39,9 @@ steps:
   - --location=europe-west3-a
   - --cluster=anyway-dev-cluster-1
 #db url encrypted
-secrets:
-- kmsKeyName: projects/anyway-backend/locations/europe-west3/keyRings/anyway-backend-keyring/cryptoKeys/DATABASE_URL
-  secretEnv:
-    DATABASE_URL: CiQASV7vvYmDJo7qSKmQGKnKc8hqgn55iY9+qftxWJd6Fu4hZJwSZwCKoLTL15gDA+nIHFQKjBy7I9TjkAx76Vc5b7hjbGkoAqTdAfzgL6Xieu+IcDhp/qeTJJzOrVw0S46lEC3lC6Vh6vwOoBQQ6wXMTHDhgjlI54ovXyygzAhsevuDLFJKp+VtvWFLAao=
+# secrets:
+# - kmsKeyName: projects/anyway-backend/locations/europe-west3/keyRings/anyway-backend-keyring/cryptoKeys/DATABASE_URL
+  # secretEnv:
+    # DATABASE_URL: CiQASV7vvYmDJo7qSKmQGKnKc8hqgn55iY9+qftxWJd6Fu4hZJwSZwCKoLTL15gDA+nIHFQKjBy7I9TjkAx76Vc5b7hjbGkoAqTdAfzgL6Xieu+IcDhp/qeTJJzOrVw0S46lEC3lC6Vh6vwOoBQQ6wXMTHDhgjlI54ovXyygzAhsevuDLFJKp+VtvWFLAao=
     
   
