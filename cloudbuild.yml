@@ -1,6 +1,6 @@
 steps:
 # build anyway-backend project
-- name: 'gcr.io/cloud-builders-community/docker-compose'
+- name: 'gcr.io/$PROJECT_ID/docker-compose'
   args: ['up --build --build-arg DATABASE_URL=$$DATABASE_URL']
   secretEnv: ['DATABASE_URL']
   env:
