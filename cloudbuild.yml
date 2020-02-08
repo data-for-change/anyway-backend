@@ -1,7 +1,7 @@
 steps:
 # build anyway-backend image
 - name: 'docker/compose'
-  args: ['build']
+  args: ['build', '--build-arg DATABASE_URL=$DATABASE_URL']
   secretEnv: ['DATABASE_URL']
   env:
   - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
@@ -26,6 +26,7 @@ steps:
 - name: 'gcr.io/cloud-builders/gke-deploy'
   args:
   - run
+  - --output=./output1
   - --image=eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA
   - --location=europe-west3-a
   - --cluster=anyway-dev-cluster-1
