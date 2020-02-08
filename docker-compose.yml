@@ -3,7 +3,8 @@ version: '3.7'
 services:
   anyway:
     image: ${ANYWAY_BACKEND_IMG}
-    build: .
+    build:
+        context: .
         args:
           - DATABASE_URL=${DATABASE_URL}
     ports:
