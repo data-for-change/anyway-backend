@@ -13,5 +13,8 @@ until pg_isready -d $DATABASE_URL -q; do
 done
 
 >&2 echo "Postgres is up and running - executing command"
-exec $cmd
-echo command returned true
+if $cmd; then
+    echo command returned true
+else
+    echo command returned some error
+fi
