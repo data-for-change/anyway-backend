@@ -15,7 +15,7 @@ done
 >&2 echo "Postgres is up and running - executing migration command"
 if $cmd; then
     echo command returned true
-	docker ps
+	docker commit workspace_db_1 $ANYWAY_BACKEND_DB_IMG
 else
-    echo command returned some error
+    echo $cmd failed
 fi
