@@ -9,7 +9,8 @@ steps:
   - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
   - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
 - name: 'docker/compose'
-  args: ['up', '-d']
+# args: ['up', '-d']
+  args: ['up']
 # secretEnv: ['DATABASE_URL']
   env:
   - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
