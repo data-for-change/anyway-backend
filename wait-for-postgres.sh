@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # wait-for-postgres.sh
 
 set -e
@@ -8,7 +8,7 @@ shift
 cmd="$@"
 
 until pg_isready -d $DATABASE_URL -q; do
-  >&2 echo "Postgres is still loading - sleeping"
+  >&2 echo "Postgres is not ready to recieve connections yet - sleeping"
   sleep 10
 done
 
