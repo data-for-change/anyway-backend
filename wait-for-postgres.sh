@@ -13,9 +13,4 @@ until pg_isready -d $DATABASE_URL -q; do
 done
 
 >&2 echo "Postgres is up and running - executing migration command"
-if $cmd; then
-    echo command returned true
-	bash docker ps
-else
-    echo command returned some error
-fi
+exec $cmd
