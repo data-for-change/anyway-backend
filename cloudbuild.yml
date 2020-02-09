@@ -9,8 +9,8 @@ steps:
   - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
   - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
 - name: 'docker/compose'
-  args: ['up']
-#  args: ['up', '--abort-on-container-exit']
+# args: ['up', '-d']
+  args: ['up', '--abort-on-container-exit']
 # secretEnv: ['DATABASE_URL']
   env:
   - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
@@ -44,7 +44,7 @@ steps:
   - --image=eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA
   - --location=europe-west3-a
   - --cluster=anyway-dev-cluster-1
-#db url encrypted
+# db url encrypted
 # secrets:
 # - kmsKeyName: projects/anyway-backend/locations/europe-west3/keyRings/anyway-backend-keyring/cryptoKeys/DATABASE_URL
   # secretEnv:
