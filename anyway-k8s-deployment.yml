@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: "anyway-backend"
-        image: eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA
+        image: eu.gcr.io/anyway-backend/anyway-backend
         imagePullPolicy: IfNotPresent
       restartPolicy: Always
 
@@ -73,7 +73,7 @@ spec:
     spec:
       containers:
       - name: "anyway-backend-db"
-        image: eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA
+        image: eu.gcr.io/anyway-backend/anyway-backend-db
         imagePullPolicy: IfNotPresent
         env:
         - name: "POSTGRES_DB"
