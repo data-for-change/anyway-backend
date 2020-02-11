@@ -19,11 +19,13 @@ def test():
     return 'Hello World! I am from docker!'
 
 @app.route('/test_db')
-def test_db():
+def test_db1():
+    print("in test-db")
     db.create_all()
     db.session.commit()
     user = User.query.first()
     if not user:
+        print("user table is empty")
         u = User(name='Eran', surname='Gilboa')
         db.session.add(u)
         db.session.commit()
