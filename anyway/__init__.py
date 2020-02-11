@@ -28,4 +28,15 @@ def test_db():
         db.session.add(u)
         db.session.commit()
     user = User.query.first()
-    return "User '{} {}' is from database".format(user.name, user.surname)		
+    return "User '{} {}' is from database".format(user.name, user.surname)
+	
+@app.route('/user-exist')
+def test_db():
+    db.create_all()
+    db.session.commit()
+    user = User.query.first()
+    if user:
+		return "User '{} {}' is from database".format(user.name, user.surname)
+	else
+		return "user not found"
+
