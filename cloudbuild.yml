@@ -1,29 +1,29 @@
 steps:
 # build anyway-backend project
-- name: 'docker/compose'
-  entrypoint: 'sh'
-  args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA']
-# args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA --build-arg DATABASE_URL=$$DATABASE_URL']
-# secretEnv: ['DATABASE_URL']
-  env:
-  - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
-  - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
 # - name: 'docker/compose'
-# # args: ['up', '-d']
-  # args: ['up', '--abort-on-container-exit']
+  # entrypoint: 'sh'
+  # args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA']
+# # args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA --build-arg DATABASE_URL=$$DATABASE_URL']
 # # secretEnv: ['DATABASE_URL']
   # env:
   # - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
   # - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['tag', '$PROJECT_ID:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['tag', '$PROJECT_ID-db:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
-# push anyway-backend image into cloud repository
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
+# # - name: 'docker/compose'
+# # # args: ['up', '-d']
+  # # args: ['up', '--abort-on-container-exit']
+# # # secretEnv: ['DATABASE_URL']
+  # # env:
+  # # - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
+  # # - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
+# - name: 'gcr.io/cloud-builders/docker'
+  # args: ['tag', '$PROJECT_ID:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
+# - name: 'gcr.io/cloud-builders/docker'
+  # args: ['tag', '$PROJECT_ID-db:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
+# # push anyway-backend image into cloud repository
+# - name: 'gcr.io/cloud-builders/docker'
+  # args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
+# - name: 'gcr.io/cloud-builders/docker'
+  # args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
 - name: 'gcr.io/cloud-builders/gke-deploy'
   args:
   - run
