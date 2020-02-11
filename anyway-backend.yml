@@ -22,9 +22,9 @@ spec:
         app.kubernetes.io/managed-by: gcp-cloud-build-deploy
     spec:
       containers:
-        image: eu.gcr.io/anyway-backend/anyway-backend
-        imagePullPolicy: IfNotPresent
-        name: anyway-backend
+       - image: eu.gcr.io/anyway-backend/anyway-backend
+         imagePullPolicy: IfNotPresent
+         name: anyway-backend
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
