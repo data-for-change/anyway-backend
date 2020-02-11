@@ -25,9 +25,6 @@ spec:
         image: eu.gcr.io/anyway-backend/anyway-backend
         imagePullPolicy: IfNotPresent
         name: anyway-backend
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
