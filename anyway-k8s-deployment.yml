@@ -19,8 +19,7 @@ spec:
     spec:
       containers:
       - name: "anyway-backend"
-        image: eu.gcr.io/anyway-backend/anyway-backend:latest
-        imagePullPolicy: Always
+        image: eu.gcr.io/anyway-backend/anyway-backend
       restartPolicy: Always
 
 
@@ -77,8 +76,7 @@ spec:
     spec:
       containers:
       - name: "anyway-backend-db"
-        image: eu.gcr.io/anyway-backend/anyway-backend-db:latest
-        imagePullPolicy: Always
+        image: eu.gcr.io/anyway-backend/anyway-backend-db
         env:
         - name: "POSTGRES_DB"
           valueFrom:
