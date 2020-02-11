@@ -95,26 +95,26 @@ spec:
             configMapKeyRef:
               key: "POSTGRES_PASSWORD"
               name: "postgres-config"
-        volumeMounts:
-          - name: postgres-storage
-            mountPath: /var/lib/postgresql/data/pgdata
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: db-data
       volumes:
-        - name: postgres-storage
+        - name: db-data
           persistentVolumeClaim:
-            claimName: postgres-pv-claim
+            claimName: db-data-pv-claim
       restartPolicy: Always
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pv-claim
+  name: db-data-pv-claim
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi
+      storage: 10Gi
 
 ---
 apiVersion: v1
