@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: "anyway-backend"
-        image: eu.gcr.io/anyway-backend/anyway-backend:lstest
+        image: eu.gcr.io/anyway-backend/anyway-backend:latest
         imagePullPolicy: Always
       restartPolicy: Always
 
