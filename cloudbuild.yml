@@ -27,7 +27,7 @@ steps:
 - name: 'gcr.io/cloud-builders/gke-deploy'
   args:
   - run
-  - --filename=./anyway-k8s-deployment.yml
+  - --filename=./deploy-back.yml
   - --location=europe-west3-a
   - --cluster=anyway-dev-cluster-1
   - en

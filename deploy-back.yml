@@ -1,0 +1,23 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "anyway-backend"
+  namespace: "default"
+  labels:
+    app: "anyway-backend"
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: "anyway-backend"
+  template:
+    metadata:
+      labels:
+        app: "anyway-backend"
+    spec:
+      containers:
+      - name: "anyway-backend"
+        image: "eu.gcr.io/anyway-backend/anyway-backend"
+      restartPolicy: Always
