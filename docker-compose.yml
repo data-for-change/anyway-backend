@@ -33,12 +33,12 @@ services:
     command: ["bash", "./wait-for-postgres.sh", "db","alembic", "upgrade", "head"]
     environment:
       - DATABASE_URL=${DATABASE_URL}
-      - ANYWAY_BACKEND_DB_IMG=${ANYWAY_BACKEND_DB_IMG}
+    # - ANYWAY_BACKEND_DB_IMG=${ANYWAY_BACKEND_DB_IMG}
     depends_on:
       - db
-    volumes:
-       - /var/run/docker.sock:/var/run/docker.sock
-       - /usr/bin/docker:/usr/bin/docker
+    # volumes:
+       # - /var/run/docker.sock:/var/run/docker.sock
+       # - /usr/bin/docker:/usr/bin/docker
     
 volumes: 
   db_data:

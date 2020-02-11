@@ -1,0 +1,130 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "anyway-backend"
+  namespace: "default"
+  labels:
+    app: "anyway-backend"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "anyway-backend"
+  template:
+    metadata:
+      labels:
+        app: "anyway-backend"
+    spec:
+      containers:
+      - name: "anyway-backend"
+        image: "eu.gcr.io/anyway-backend/anyway-backend"
+        imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+
+
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "anyway-backend-service"
+  namespace: "default"
+  labels:
+    app: "anyway-backend"
+spec:
+  ports:
+  - protocol: "TCP"
+    port: 5000
+    targetPort: 5000
+  selector:
+    app: "anyway-backend"
+  type: "LoadBalancer"
+
+---
+apiVersion: "v1"
+kind: "ConfigMap"
+metadata:
+  name: "postgres-config"
+  namespace: "default"
+  labels:
+    app: "postgres"
+data:
+  POSTGRES_DB: "anyway"
+  POSTGRES_USER: "anyway"
+  POSTGRES_PASSWORD: "anyway"
+
+
+---
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "anyway-backend-db"
+  namespace: "default"
+  labels:
+    app: "anyway-backend-db"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "anyway-backend-db"
+  template:
+    metadata:
+      labels:
+        app: "anyway-backend-db"
+    spec:
+      containers:
+      - name: "anyway-backend-db"
+        image: "eu.gcr.io/anyway-backend/anyway-backend-db"
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: "POSTGRES_DB"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_DB"
+              name: "postgres-config"
+        - name: "POSTGRES_USER"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_USER"
+              name: "postgres-config"
+        - name: "POSTGRES_PASSWORD"
+          valueFrom:
+            configMapKeyRef:
+              key: "POSTGRES_PASSWORD"
+              name: "postgres-config"
+        ports:
+          - containerPort: 5432
+            name: anyway-backend-db
+        volumeMounts:
+          - name: postgres-storage
+            mountPath: /var/lib/postgresql/db-data
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: anyway-backend-db-service
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: anyway-backend-db-service
+  type: LoadBalancer

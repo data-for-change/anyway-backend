@@ -24,22 +24,29 @@ steps:
   args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
-# deploy anyway db image into kubernetes 
 - name: 'gcr.io/cloud-builders/gke-deploy'
   args:
   - run
-  - --output=./output-anyway-db
-  - --image=eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA
+  - --filename=./anyway-k8s-deployment.yml
   - --location=europe-west3-a
   - --cluster=anyway-dev-cluster-1
-# deploy anyway-backend image into kubernetes 
-- name: 'gcr.io/cloud-builders/gke-deploy'
-  args:
-  - run
-  - --output=./output-anyway-backend
-  - --image=eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA
-  - --location=europe-west3-a
-  - --cluster=anyway-dev-cluster-1
+
+# # deploy anyway db image into kubernetes 
+# - name: 'gcr.io/cloud-builders/gke-deploy'
+  # args:
+  # - run
+  # - --output=./output-anyway-db
+  # - --image=eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA
+  # - --location=europe-west3-a
+  # - --cluster=anyway-dev-cluster-1
+# # deploy anyway-backend image into kubernetes 
+# - name: 'gcr.io/cloud-builders/gke-deploy'
+  # args:
+  # - run
+  # - --output=./output-anyway-backend
+  # - --image=eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA
+  # - --location=europe-west3-a
+  # - --cluster=anyway-dev-cluster-1
 # db url encrypted
 # secrets:
 # - kmsKeyName: projects/anyway-backend/locations/europe-west3/keyRings/anyway-backend-keyring/cryptoKeys/DATABASE_URL
