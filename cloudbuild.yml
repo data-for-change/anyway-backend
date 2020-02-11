@@ -28,7 +28,7 @@ steps:
   args:
   - run
   - --filename=./anyway-backend.yml
-  - --image=eu.gcr.io/anyway-backend/anyway-backend@sha256:e65d233223e35632dd3172469a58675af88c04b92cf4e7aeebb58632fa5fa88e
+# - --image=eu.gcr.io/anyway-backend/anyway-backend@sha256:e65d233223e35632dd3172469a58675af88c04b92cf4e7aeebb58632fa5fa88e
   - --location=europe-west3-a
   - --cluster=anyway-dev-cluster-1
   - en
