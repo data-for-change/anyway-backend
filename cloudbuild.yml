@@ -30,6 +30,10 @@ steps:
   - --filename=./anyway-k8s-deployment.yml
   - --location=europe-west3-a
   - --cluster=anyway-dev-cluster-1
+  env:
+  - 'ANYWAY_BACKEND_GCR_IMG=eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA'
+  - 'ANYWAY_BACKEND_DB_GCR_IMG=eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA'
+    
 
 # # deploy anyway db image into kubernetes 
 # - name: 'gcr.io/cloud-builders/gke-deploy'
