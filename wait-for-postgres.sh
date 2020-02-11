@@ -13,15 +13,10 @@ until pg_isready -d $DATABASE_URL -q; do
 done
 
 >&2 echo "Postgres is up and running - executing migration command"
-exec $cmd
-# if $cmd; then
-	# echo before commit $ANYWAY_BACKEND_DB_IMG
-	# docker ps
-	# docker images
-	# docker commit workspace_db_1 $ANYWAY_BACKEND_DB_IMG
-	# echo after commit $ANYWAY_BACKEND_DB_IMG
-	# docker ps
-	# docker images
-# else
-    # echo $cmd failed
-# fi
+#exec $cmd
+if $cmd; then
+	echo before commit $ANYWAY_BACKEND_DB_IMG
+	docker commit workspace_db_1 $ANYWAY_BACKEND_DB_IMG
+else
+    echo $cmd failed
+fi
