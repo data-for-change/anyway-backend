@@ -50,8 +50,10 @@ spec:
             configMapKeyRef:
               key: "POSTGRES_PASSWORD"
               name: "postgres-config"
+        - name: "PGDATA"
+          value: /var/lib/postgresql/data/pgdata
         volumeMounts:
-          - mountPath: /var/lib/postgresql/data/db-data
+          - mountPath: /var/lib/postgresql/data/pgdata
             name: db-data
       volumes:
         - name: db-data
