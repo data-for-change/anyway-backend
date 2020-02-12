@@ -56,14 +56,14 @@ spec:
       volumes:
         - name: db-data
           persistentVolumeClaim:
-            claimName: db-data-pv-claim
+            claimName: db-data-pv
       restartPolicy: Always
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: db-data-pv-claim
+  name: db-data-pv
 spec:
   accessModes:
     - ReadWriteOnce
