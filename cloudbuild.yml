@@ -1,5 +1,5 @@
 steps:
-build anyway-backend project
+# build anyway-backend project
 - name: 'docker/compose'
   entrypoint: 'sh'
   args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA']
