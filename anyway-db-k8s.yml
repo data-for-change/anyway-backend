@@ -51,7 +51,7 @@ spec:
               key: "POSTGRES_PASSWORD"
               name: "postgres-config"
         volumeMounts:
-          - mountPath: /var/lib/postgresql/data
+          - mountPath: /var/lib/postgresql/data/db-data
             name: db-data
       volumes:
         - name: db-data
