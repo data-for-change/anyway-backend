@@ -25,7 +25,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_DB=${POSTGRES_DB}
     volumes:
-      - db_data:/var/lib/postgresql/data/db-data  
+      - db_data:/var/lib/postgresql/data 
     restart: always
     
   migration:
