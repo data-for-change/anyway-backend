@@ -78,6 +78,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: anyway-backend-db-service
+  namespace: "default"
   labels:
     app: "anyway-backend-db"
 spec:
