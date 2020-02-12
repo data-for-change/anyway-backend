@@ -1,43 +1,48 @@
 steps:
-# build anyway-backend project
+build anyway-backend project
+- name: 'docker/compose'
+  entrypoint: 'sh'
+  args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA']
+# args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA --build-arg DATABASE_URL=$$DATABASE_URL']
+# secretEnv: ['DATABASE_URL']
+  env:
+  - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
+  - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
 # - name: 'docker/compose'
-  # entrypoint: 'sh'
-  # args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA']
-# # args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA --build-arg DATABASE_URL=$$DATABASE_URL']
+# # args: ['up', '-d']
+  # args: ['up', '--abort-on-container-exit']
 # # secretEnv: ['DATABASE_URL']
   # env:
   # - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
   # - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
-# # - name: 'docker/compose'
-# # # args: ['up', '-d']
-  # # args: ['up', '--abort-on-container-exit']
-# # # secretEnv: ['DATABASE_URL']
-  # # env:
-  # # - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
-  # # - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
-# - name: 'gcr.io/cloud-builders/docker'
-  # args: ['tag', '$PROJECT_ID:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
-# - name: 'gcr.io/cloud-builders/docker'
-  # args: ['tag', '$PROJECT_ID-db:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
-# # push anyway-backend image into cloud repository
-# - name: 'gcr.io/cloud-builders/docker'
-  # args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
-# - name: 'gcr.io/cloud-builders/docker'
-  # args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', '$PROJECT_ID:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['tag', '$PROJECT_ID-db:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
+# push anyway-backend image into cloud repository
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
 - name: 'gcr.io/cloud-builders/gke-deploy'
   args:
   - run
-  - --filename=./anyway-backend.yml
-# - --image=eu.gcr.io/anyway-backend/anyway-backend@sha256:e65d233223e35632dd3172469a58675af88c04b92cf4e7aeebb58632fa5fa88e
+  - --output=./output-anyway-db
+  - --filename=./anyway-db-k8s.yml
+  - --image=eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA
   - --location=europe-west3-a
   - --cluster=anyway-dev-cluster-1
   - en
-  # env:
-  # - 'ANYWAY_BACKEND_GCR_IMG=eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA'
-  # - 'ANYWAY_BACKEND_DB_GCR_IMG=eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA'
-    
-
-# # deploy anyway db image into kubernetes 
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  args:
+  - run
+  - --output=./output-anyway-backend
+  - --filename=./anyway-backend-k8s.yml
+  - --image=eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA
+  - --location=europe-west3-a
+  - --cluster=anyway-dev-cluster-1
+  - en
+# deploy anyway db image into kubernetes 
 # - name: 'gcr.io/cloud-builders/gke-deploy'
   # args:
   # - run

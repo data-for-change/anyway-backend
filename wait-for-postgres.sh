@@ -7,12 +7,13 @@ host="$1"
 shift
 cmd="$@"
 
+echo "Starting alembic migration. Checking if db is up....."
 until pg_isready -d $DATABASE_URL -q; do
-  >&2 echo "Postgres is not ready to receive connections yet - sleeping"
+  >&2 echo "db is not up yet - sleeping"
   sleep 10
 done
 
->&2 echo "Postgres is up and running - executing migration command"
+>&2 echo "db is up and running - executing migration command"
 exec $cmd
 # if $cmd; then
 	# echo before commit $ANYWAY_BACKEND_DB_IMG

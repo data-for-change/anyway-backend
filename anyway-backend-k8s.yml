@@ -21,3 +21,22 @@ spec:
       - name: "anyway-backend"
         image: "eu.gcr.io/anyway-backend/anyway-backend"
       restartPolicy: Always
+
+
+
+---
+apiVersion: "v1"
+kind: "Service"
+metadata:
+  name: "anyway-backend-service"
+  namespace: "default"
+  labels:
+    app: "anyway-backend"
+spec:
+  ports:
+  - protocol: "TCP"
+    port: 5000
+    targetPort: 5000
+  selector:
+    app: "anyway-backend"
+  type: "LoadBalancer"
