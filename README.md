@@ -3,6 +3,12 @@
 
 ------
 
+## Getting the code
+1. [Fork](https://github.com/hasadna/anyway-backend/fork) this repository on GitHub
+1. `git clone https://github.com/*you*/anyway`
+1. Add the main repository as your upstream remote: `git remote add upstream https://github.com/hasadna/anyway-backend`
+
+
 # ANYWAY’s docker environment
 -----------------------
 
