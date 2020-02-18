@@ -38,7 +38,7 @@ def test_db():
     db.session.commit()
     user = User.query.first()
     if user:
-        return "User '{} {}' is from database".format(user.name, user.surname)
+        return "User bla bla '{} {}' is from database".format(user.name, user.surname)
     else:
         return "user not found"
 
