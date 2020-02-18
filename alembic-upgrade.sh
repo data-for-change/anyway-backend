@@ -3,5 +3,5 @@
 set -e
 env
 which kubectl
-export POD kubectl get pods -l app=anyway-backend -o custom-columns=:metadata.name
+POD=$(kubectl get pod -l app=my-app -o jsonpath="{.items[0].metadata.name}")
 kubectl exec $POD -c anyway-backend -- alembic upgrade head'
