@@ -2,6 +2,6 @@
 
 set -e
 env
-which kubectl
-POD=$(kubectl get pod -l app=my-app -o jsonpath="{.items[0].metadata.name}")
-kubectl exec $POD -c anyway-backend -- alembic upgrade head'
+gcloud container clusters get-credentials anyway-dev-cluster-1 --zone europe-west3-a --project anyway-backend && kubectl exec anyway-backend-5688d6cd6c-wqmpl -c anyway-backend -- ls
+#POD=$(kubectl get pod -l app=my-app -o jsonpath="{.items[0].metadata.name}")
+#kubectl exec $POD -c anyway-backend -- alembic upgrade head'
