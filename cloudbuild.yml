@@ -41,9 +41,9 @@ steps:
   # - --location=europe-west3-a
   # - --cluster=anyway-dev-cluster-1
   # - en
-- name: 'bash'
+- name: 'gcr.io/cloud-builders/gcloud'
   id:   'Run alembic upgrade'
-  args: ['-c', 'gcloud container clusters get-credentials anyway-dev-cluster-1 --zone europe-west3-a --project anyway-backend  && kubectl exec anyway-backend-566d97564c-f8k8h -c anyway-backend -- alembic upgrade head']
+  args: ['container', 'clusters', 'get-credentials', 'anyway-dev-cluster-1', '--zone', 'europe-west3-a', '--project', 'anyway-backend', '&&', 'kubectl', 'exec', 'anyway-backend-566d97564c-f8k8h', '-c', 'anyway-backend', '--', 'alembic', 'upgrade', 'head']
 #  args: ['-c', '-it', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA', 'alembic', 'upgrade', 'head']
 # db url encrypted
 # secrets:
