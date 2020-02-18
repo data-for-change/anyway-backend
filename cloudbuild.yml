@@ -46,8 +46,9 @@ steps:
   # - --cluster=anyway-dev-cluster-1
   # - en
 
-- name: 'sh'
+- name: 'gcr.io/cloud-builders/kubectl'
   id:   'Run alembic upgrade'
+  entrypoint: 'sh'
   args: ['-c', 'kubectl get pods -l app=anyway-backend -o custom-columns=:metadata.name | xargs -I{} kubectl exec {} -c anyway-backend -- alembic upgrade head']
 #  args: ['exec', 'anyway-backend-566d97564c-f8k8h', '-c', 'anyway-backend', '--', 'alembic', 'upgrade', 'head']
   env:
