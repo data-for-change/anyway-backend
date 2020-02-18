@@ -44,6 +44,9 @@ steps:
 - name: 'gcr.io/cloud-builders/kubectl'
   id:   'Run alembic upgrade'
   args: ['exec', 'anyway-backend-566d97564c-f8k8h', '-c', 'anyway-backend', '--', 'alembic', 'upgrade', 'head']
+  env:
+  - CLOUDSDK_COMPUTE_ZONE=europe-west3-a
+  - CLOUDSDK_CONTAINER_CLUSTER=anyway-dev-cluster-1
 #  args: ['-c', '-it', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA', 'alembic', 'upgrade', 'head']
 # db url encrypted
 # secrets:
