@@ -49,8 +49,7 @@ steps:
 - name: 'gcr.io/cloud-builders/kubectl'
   id:   'Run alembic upgrade'
   entrypoint: 'sh'
-  args: ['-c', 'kubectl get pods -l app=anyway-backend -o custom-columns=:metadata.name']
-#  args: ['-c', 'kubectl get pods -l app=anyway-backend -o custom-columns=:metadata.name | xargs -I{} kubectl exec {} -c anyway-backend -- alembic upgrade head']
+  args: ['-c', 'lembic-upgrade.sh']
 #  args: ['exec', 'anyway-backend-566d97564c-f8k8h', '-c', 'anyway-backend', '--', 'alembic', 'upgrade', 'head']
   env:
   - CLOUDSDK_COMPUTE_ZONE=europe-west3-a
