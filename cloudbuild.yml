@@ -49,7 +49,7 @@ steps:
 - name: 'gcr.io/cloud-builders/kubectl'
   id:   'Run alembic upgrade'
   entrypoint: 'sh'
-  args: ['-c', 'alembic-upgrade.sh']
+  args: ['-c', './alembic-upgrade.sh']
 #  args: ['exec', 'anyway-backend-566d97564c-f8k8h', '-c', 'anyway-backend', '--', 'alembic', 'upgrade', 'head']
   env:
   - CLOUDSDK_COMPUTE_ZONE=europe-west3-a
