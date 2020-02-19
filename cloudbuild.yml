@@ -35,7 +35,7 @@ steps:
   - --cluster=anyway-dev-cluster-1
   - en
   env:
-  - POSTGRES_DB=anyway
+  - POSTGRES_DB=anywayEran
 
 # - name: 'gcr.io/cloud-builders/gke-deploy'
   # id:   'Deploy backend image into k8s cluster'
