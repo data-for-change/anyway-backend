@@ -44,7 +44,7 @@ metadata:
   name: db-data-pv
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 10Gi
