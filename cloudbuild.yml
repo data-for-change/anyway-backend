@@ -1,28 +1,28 @@
 steps:
-- name: 'docker/compose'
-  id: 'Build anyway db and backend docker images'
-  entrypoint: 'sh'
-  args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA --build-arg DATABASE_URL=$$DATABASE_URL']
-  secretEnv: ['DATABASE_URL']
-  env:
-  - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
-  - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
+# - name: 'docker/compose'
+  # id: 'Build anyway db and backend docker images'
+  # entrypoint: 'sh'
+  # args: ['-c', 'docker-compose build --force-rm --no-cache --build-arg ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA --build-arg ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA --build-arg DATABASE_URL=$$DATABASE_URL']
+  # secretEnv: ['DATABASE_URL']
+  # env:
+  # - 'ANYWAY_BACKEND_IMG=$PROJECT_ID:$COMMIT_SHA'
+  # - 'ANYWAY_BACKEND_DB_IMG=$PROJECT_ID-db:$COMMIT_SHA'
 
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Tag backend docker image'
-  args: ['tag', '$PROJECT_ID:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
+# - name: 'gcr.io/cloud-builders/docker'
+  # id: 'Tag backend docker image'
+  # args: ['tag', '$PROJECT_ID:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
 
-- name: 'gcr.io/cloud-builders/docker'
-  id: 'Tag db docker image'
-  args: ['tag', '$PROJECT_ID-db:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
+# - name: 'gcr.io/cloud-builders/docker'
+  # id: 'Tag db docker image'
+  # args: ['tag', '$PROJECT_ID-db:$COMMIT_SHA', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
 
-- name: 'gcr.io/cloud-builders/docker'
-  id:   'Push backend image into cloud repository'
-  args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
+# - name: 'gcr.io/cloud-builders/docker'
+  # id:   'Push backend image into cloud repository'
+  # args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA']
 
-- name: 'gcr.io/cloud-builders/docker'
-  id:   'Push db image into cloud repository'
-  args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
+# - name: 'gcr.io/cloud-builders/docker'
+  # id:   'Push db image into cloud repository'
+  # args: ['push', 'eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA']
 
 - name: 'gcr.io/cloud-builders/gke-deploy'
   id:   'Deploy db image into k8s cluster'
@@ -34,30 +34,32 @@ steps:
   - --location=europe-west3-a
   - --cluster=anyway-dev-cluster-1
   - en
-
-- name: 'gcr.io/cloud-builders/gke-deploy'
-  id:   'Deploy backend image into k8s cluster'
-  args:
-  - run
-  - --output=./output-anyway-backend
-  - --filename=./anyway-backend-k8s.yml
-  - --image=eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA
-  - --location=europe-west3-a
-  - --cluster=anyway-dev-cluster-1
-  - en
-
-- name: 'gcr.io/cloud-builders/kubectl'
-  id:   'Run db migration'
-  entrypoint: 'bash'
-  args: ['-c', 'chmod +x ./db-migration.sh && ./db-migration.sh']
   env:
-  - CLOUDSDK_COMPUTE_ZONE=europe-west3-a
-  - CLOUDSDK_CONTAINER_CLUSTER=anyway-dev-cluster-1
+  - POSTGRES_DB=anyway
+
+# - name: 'gcr.io/cloud-builders/gke-deploy'
+  # id:   'Deploy backend image into k8s cluster'
+  # args:
+  # - run
+  # - --output=./output-anyway-backend
+  # - --filename=./anyway-backend-k8s.yml
+  # - --image=eu.gcr.io/$PROJECT_ID/$PROJECT_ID:$COMMIT_SHA
+  # - --location=europe-west3-a
+  # - --cluster=anyway-dev-cluster-1
+  # - en
+
+# - name: 'gcr.io/cloud-builders/kubectl'
+  # id:   'Run db migration'
+  # entrypoint: 'bash'
+  # args: ['-c', 'chmod +x ./db-migration.sh && ./db-migration.sh']
+  # env:
+  # - CLOUDSDK_COMPUTE_ZONE=europe-west3-a
+  # - CLOUDSDK_CONTAINER_CLUSTER=anyway-dev-cluster-1
 
 # db url encrypted
-secrets:
- - kmsKeyName: projects/anyway-backend/locations/europe-west3/keyRings/anyway-backend-keyring/cryptoKeys/DATABASE_URL
-   secretEnv:
-        DATABASE_URL: CiQASV7vvaptME7MtrCuB2TIylYQVfWO81RNcIPWmyOftJSjsu0SZwCQ1yltfIZj8GAaEpTPzjWIKC4Ob00aVX8/5SJAs9ohmFPEZQdZLw7/pPv7BDpDqOyhYuUY3bM1lY1DlC/OosR2JTOoJdxGXIuWnmJEehhp9TrhWooASzAfBzKkkputzAyTeK4OlfQ=
+# secrets:
+ # - kmsKeyName: projects/anyway-backend/locations/europe-west3/keyRings/anyway-backend-keyring/cryptoKeys/DATABASE_URL
+   # secretEnv:
+      # DATABASE_URL: CiQASV7vvaptME7MtrCuB2TIylYQVfWO81RNcIPWmyOftJSjsu0SZwCQ1yltfIZj8GAaEpTPzjWIKC4Ob00aVX8/5SJAs9ohmFPEZQdZLw7/pPv7BDpDqOyhYuUY3bM1lY1DlC/OosR2JTOoJdxGXIuWnmJEehhp9TrhWooASzAfBzKkkputzAyTeK4OlfQ=
     
   

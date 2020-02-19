@@ -6,7 +6,7 @@ metadata:
   labels:
     app: "postgres"
 data:
-  POSTGRES_DB: "anyway"
+  POSTGRES_DB: $POSTGRES_DB
   POSTGRES_USER: "anyway"
   POSTGRES_PASSWORD: "anyway"
 
@@ -23,6 +23,11 @@ spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 2
+  minReadySeconds: 20
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
   selector:
     matchLabels:
       app: "anyway-backend-db"
