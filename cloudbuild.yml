@@ -53,6 +53,7 @@ steps:
   env:
   - CLOUDSDK_COMPUTE_ZONE=europe-west3-a
   - CLOUDSDK_CONTAINER_CLUSTER=anyway-dev-cluster-1
+timeout: 720s
 
 # encrypted values
 secrets:
