@@ -56,12 +56,12 @@ steps:
 
 # encrypted values
 secrets:
- - kmsKeyName: projects/anyway-backend/locations/europe-west3/keyRings/anyway-db-keyring/cryptoKeys/DB_K8S_KEY
+ - kmsKeyName: projects/anyway-backend/locations/europe-west3/keyRings/anyway-keyring/cryptoKeys/ANYWAY-KEY
    secretEnv:
-      DATABASE_URL: CiQAXl/w7atz54jXiqjLd+aJklppcOQWmnPYecTX6zQaF+zRZh4ScQDUW4cv87NI4EYOFUnULOHNZed5j3jZRuGgmiTp9/AAgYJZS7FVn7E4hAGoPJSq/j3rnRf/9lO3cJInwc6SmaPajYwYo4IajDU2p7sRYGZtqCZaY/V/n5uqkuqd8J5cQ0hnX1HefgW1M8xZ0f9pZhAm
-      POSTGRES_PASSWORD: CiQAXl/w7eY3u/A11bE+dvHQa6wde3j0bvqYikE+d3jIkbDIw/ASLwDUW4cva/Ic2u7byPQvxHmTFnbvaZwGl4V86TjWx4HTHpeHc0A4usovk6X2IVQf
-      POSTGRES_USER: CiQAXl/w7Uo2IOSX5/Uk+4UGiR+vNptjLY+Uu8QR9GHPjp22VKwSNgDUW4cvyZr/9niWuGhsB7dQSfW5MftCupm7WAvCiZLIkZId85O1PNGKjyJVJcJafBKQ/YXnDA==
-      POSTGRES_DB: CiQAXl/w7SrRDlX7W3PRPYnhii89d2WS6CGQvVwhA/lvayYiilESMgDUW4cvmHP1vCk8iBBrUw9nyOibiKZjM2IrajRwdIVUjxwrATgeoYVX/upd8Alp+j2S
+      DATABASE_URL: CiQAdQc2s3GSGOUhS65gO4ZyG0NNc507R4Pb+/eFin88OCDeRxsSeQBVstM2QIvW/RKUgLF7ojy2HjBYKcVsSYtc3syMSxFtO3esMHbGKbSd6arltiey7N7eU2tIiFJoZzxeed06Aa5xoz5WA/1/hcBGropwg2ytkY5IeXoj/qSbCShQe+HSQZf+3uYW4E2WR5zT2kRKxWAKHptnysgzJF0=
+      POSTGRES_PASSWORD: CiQAdQc2s0A1OjCowD/tzNrSx4qA7yMvToXIMcGQGmav6RIrVPISNwBVstM2cFf/XMwyUZ6NvyOanMHaxFRshxT9OziOr4mV8ppQCUcwTRdrG/noQTHvMb8Taj5eQlM=
+      POSTGRES_USER: CiQAdQc2szzdQlVwKWtVJvKOHMGoF79S86ikJmSMTHfE91xo0O8SNgBVstM2yTgaL25muc4QSZ45cews5Ku8dpIae2y7cImB9cpVq8qYOr6uJTsDJ1FTkiOCpSfaNA==
+      POSTGRES_DB: CiQAdQc2s4kpmARxkpjw9JKs+gJ5NIWQDoxyOfe4NtDlpVJnXeESMgBVstM2HKmA+c97TP/ncIBBgYY0dCzJmTsPCt6JbHEOuC0zx1WAE/8NooLXIbs9B/Wq
 
     
   
