@@ -10,10 +10,6 @@ spec:
   replicas: 1
   revisionHistoryLimit: 2
   minReadySeconds: 15
-  strategy:
-    rollingUpdate:
-      maxUnavailable: 0
-      maxSurge: 1
   selector:
     matchLabels:
       app: "anyway-backend"
