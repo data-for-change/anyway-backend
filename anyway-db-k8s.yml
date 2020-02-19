@@ -10,6 +10,8 @@ spec:
   replicas: 1
   revisionHistoryLimit: 2
   minReadySeconds: 20
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: "anyway-backend-db"
