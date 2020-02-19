@@ -30,7 +30,7 @@ steps:
   - run
   - --output=./output-anyway-db
   - --filename=./anyway-db-k8s.yml
-  - --image=eu.gcr.io/$PROJECT_ID/$PROJECT_ID-db:$COMMIT_SHA
+  - --image=eu.gcr.io/anyway-backend/anyway-backend-db@sha256:135aabf23e1e9ba396d12825b4bf032267a3c0d7ffea08046b41e1f0bbf88f6a
   - --location=europe-west3-a
   - --cluster=anyway-dev-cluster-1
   - en
