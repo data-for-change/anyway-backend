@@ -1,44 +1,52 @@
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from anyway.core import config, utils
+from webassets import Environment as AssetsEnvironment
+from flask_babel import Babel, gettext
+from flask_assets import Environment
+from flask_cors import CORS
+from flask_compress import Compress
 
-app = Flask(__name__)
+_PROJECT_ROOT = os.path.join(os.path.dirname(__file__))
 
-app.config.from_pyfile('config.cfg')
+"""
+initializes a Flask instance with default values
+"""
+app = Flask(
+    "anyway",
+    template_folder=os.path.join(config._PROJECT_ROOT, 'templates'),
+    static_folder=os.path.join(config._PROJECT_ROOT, 'static'))
+app.config.from_object(config)
+app.config['BABEL_TRANSLATION_DIRECTORIES'] = os.path.join(config._PROJECT_ROOT, 'translations')
+app.config['SECURITY_REGISTERABLE'] = False
+app.config['SECURITY_USER_IDENTITY_ATTRIBUTES'] = 'username'
+app.config['BABEL_DEFAULT_LOCALE'] = 'he'
+app.config['OAUTH_CREDENTIALS'] = {
+    'facebook': {
+        'id': os.environ.get('FACEBOOK_KEY'),
+        'secret': os.environ.get('FACEBOOK_SECRET')
+    },
+    'google': {
+        'id': os.environ.get('GOOGLE_LOGIN_CLIENT_ID'),
+        'secret': os.environ.get('GOOGLE_LOGIN_CLIENT_SECRET')
+    }
+}
+app.config['RESTPLUS_MASK_SWAGGER'] = False
 
-db = SQLAlchemy()
-db.init_app(app)
+db = SQLAlchemy(app)
+assets = Environment()
+assets.init_app(app)
+assets_env = AssetsEnvironment(os.path.join(config._PROJECT_ROOT, 'static'), '/static')
 
-class User(db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer(), primary_key=True)
-    name = db.Column(db.String())
-    surname = db.Column(db.String())
+CORS(app, resources={r"/location-subscription": {"origins": "*"}, r"/report-problem": {"origins": "*"}})
 
-@app.route('/test')
-def test():
-    return 'Hello World! I am from docker!'
+# sg = SendGridAPIClient(app.config['SENDGRID_API_KEY'])
 
-@app.route('/test_db')
-def test_db1():
-    print("in test-db")
-    db.create_all()
-    db.session.commit()
-    user = User.query.first()
-    if not user:
-        print("user table is empty")
-        u = User(name='Eran', surname='Gilboa')
-        db.session.add(u)
-        db.session.commit()
-    user = User.query.first()
-    return "User '{} {}' is from database".format(user.name, user.surname)
+babel = Babel(app)
 
-@app.route('/user-exist')
-def test_db():
-    db.create_all()
-    db.session.commit()
-    user = User.query.first()
-    if user:
-        return "User bla bla '{} {}' is from database".format(user.name, user.surname)
-    else:
-        return "user not found"
+Compress(app)
 
+
+from anyway.apis import api
+api.init_app(app)
