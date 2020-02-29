@@ -7,6 +7,7 @@ import sys
 
 import click
 
+
 def valid_date(date_string):
     DATE_INPUT_FORMAT = '%d-%m-%Y'
     from datetime import datetime
@@ -21,20 +22,31 @@ def valid_date(date_string):
 def cli():
     pass
 
+
 @cli.group()
 def process():
     pass
+
 
 @process.command()
 def cbs():
     from anyway.parsers.cbs import main
     return main()
 
+
 @process.command()
 @click.argument("filename", type=str, default="data/segments/road_segments.xlsx")
 def road_segments(filename):
     from anyway.parsers.road_segments import parse
     return parse(filename)
+
+
+@process.command()
+@click.argument("filename", type=str, default="data/news_flash/news_flash.csv")
+def news_flash(filename):
+    from anyway.parsers.news_flash import parse
+    return parse(filename)
+
 
 if __name__ == '__main__':
     cli(sys.argv[1:])  # pylint: disable=too-many-function-args
