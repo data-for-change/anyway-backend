@@ -17,8 +17,7 @@ RUN apt-get clean && \
 WORKDIR /anyway
 
 COPY requirements.txt /anyway
-COPY  alembic.ini /anyway
-COPY  alembic /anyway/alembic
+
 
 
 RUN virtualenv /venv3 -p python3
@@ -30,8 +29,10 @@ RUN . /venv3/bin/activate && \
                     pip install -U setuptools wheel && \
                     pip install --upgrade pip && \
                     pip install -r requirements.txt
+					
 
 
 COPY . /anyway
 
 CMD . /venv3/bin/activate && FLASK_APP=anyway FLASK_DEBUG=1 flask run --host 0.0.0.0
+

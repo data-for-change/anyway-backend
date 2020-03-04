@@ -1,0 +1,65 @@
+apiVersion: "apps/v1"
+kind: "Deployment"
+metadata:
+  name: "anyway-backend-db"
+  namespace: "default"
+  labels:
+    app: "anyway-backend-db"
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 1
+  revisionHistoryLimit: 2
+  minReadySeconds: 20
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: "anyway-backend-db"
+  template:
+    metadata:
+      labels:
+        app: "anyway-backend-db"
+    spec:
+      containers:
+      - name: "anyway-backend-db"
+        image: "eu.gcr.io/anyway-backend/anyway-backend-db"
+        env:
+        - name: "PGDATA"
+          value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: db-data
+      volumes:
+        - name: db-data
+          persistentVolumeClaim:
+            claimName: db-data-pv
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db-data-pv
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: anyway-backend-db-service
+  namespace: "default"
+  labels:
+    app: "anyway-backend-db"
+spec:
+  ports:
+  - port: 3000
+    protocol: TCP
+    targetPort: 5432
+  selector:
+    app: anyway-backend-db
+  type: LoadBalancer
