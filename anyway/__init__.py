@@ -39,7 +39,8 @@ db = SQLAlchemy(app)
 from anyway.common.models import cbs_models, \
                                  news_flash_models, \
                                  schools_models, \
-                                 mobile_app_models
+                                 mobile_app_models, \
+                                 waze_models
 
 assets = Environment()
 assets.init_app(app)

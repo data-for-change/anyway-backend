@@ -12,7 +12,8 @@ from anyway.core.database import Base, \
                                  CBSBase, \
                                  NewsFlashBase, \
                                  SchoolshBase, \
-                                 MobileAppBase
+                                 MobileAppBase, \
+                                 WazeBase
 
 from anyway.core.database import schemas_ignored_in_migration, tables_ignored_in_migration
 # this is the Alembic Config object, which provides
@@ -32,7 +33,8 @@ target_metadata = [CBSBase.metadata,
                    NewsFlashBase.metadata,
                    Base.metadata,
                    SchoolshBase.metadata,
-                   MobileAppBase.metadata]
+                   MobileAppBase.metadata,
+                   WazeBase.metadata]
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")
