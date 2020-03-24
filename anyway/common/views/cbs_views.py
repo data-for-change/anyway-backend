@@ -8,7 +8,7 @@ class Views(object):
                                     cbs.accident_type.accident_type_hebrew,
                                     cbs.markers.accident_severity,
                                     cbs.accident_severity.accident_severity_hebrew,
-                                    cbs.markers.created as accident_timestamp,
+                                    cbs.markers.accident_timestamp,
                                     cbs.markers.location_accuracy,
                                     cbs.location_accuracy.location_accuracy_hebrew,
                                     cbs.markers.road_type,
@@ -88,7 +88,6 @@ class Views(object):
                                     cbs.markers.house_number,
                                     cbs.markers.non_urban_intersection,
                                     cbs.markers.non_urban_intersection_hebrew,
-                                    cbs.markers.non_urban_intersection_by_junction_number,
                                     cbs.markers.urban_intersection,
                                     cbs.markers.accident_year,
                                     cbs.markers.accident_month,
@@ -242,7 +241,7 @@ class Views(object):
      LEFT JOIN cbs.vehicle_type ON cbs.vehicles.vehicle_type = cbs.vehicle_type.id AND cbs.vehicles.accident_year = cbs.vehicle_type.year AND cbs.vehicles.provider_code = cbs.vehicle_type.provider_code
      LEFT JOIN cbs.vehicle_damage ON cbs.vehicles.vehicle_damage = cbs.vehicle_damage.id AND cbs.vehicles.accident_year = cbs.vehicle_damage.year AND cbs.vehicles.provider_code = cbs.vehicle_damage.provider_code;"""
 
-    INVOLVED_HEBREW_MARKERS_HEBREW_VIEW = """SELECT
+    INVOLVED_MARKERS_VEHICLES_HEBREW_VIEW = """SELECT
     cbs.involved_hebrew.accident_id,
     cbs.involved_hebrew.provider_and_id,
     cbs.involved_hebrew.provider_code,
@@ -377,7 +376,6 @@ class Views(object):
     cbs.markers_hebrew.street2_hebrew,
     cbs.markers_hebrew.non_urban_intersection,
     cbs.markers_hebrew.non_urban_intersection_hebrew,
-    cbs.markers_hebrew.non_urban_intersection_by_junction_number,
     cbs.markers_hebrew.accident_day,
     cbs.markers_hebrew.accident_hour_raw,
     cbs.markers_hebrew.accident_hour_raw_hebrew,
@@ -499,7 +497,6 @@ class Views(object):
     cbs.markers_hebrew.street2_hebrew,
     cbs.markers_hebrew.non_urban_intersection,
     cbs.markers_hebrew.non_urban_intersection_hebrew,
-    cbs.markers_hebrew.non_urban_intersection_by_junction_number,
     cbs.markers_hebrew.accident_day,
     cbs.markers_hebrew.accident_hour_raw,
     cbs.markers_hebrew.accident_hour_raw_hebrew,

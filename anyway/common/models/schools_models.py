@@ -6,6 +6,7 @@ from geoalchemy2 import Geometry
 
 class School(SchoolshBase):
     __tablename__ = "schools"
+    __table_args__ = (Index('ix_schools_schools_geom', 'geom', postgresql_using='gist'),)
     id = Column(BigInteger(), primary_key=True, index=True)
     fcode_type = Column(Integer(), nullable=True)
     yishuv_symbol = Column(Integer(), nullable=True, index=True)
@@ -18,7 +19,7 @@ class School(SchoolshBase):
     n_ord = Column(Float(), nullable=True)
     longitude = Column(Float(), nullable=True)
     latitude = Column(Float(), nullable=True)
-    geom = Column(Geometry('POINT', srid=4326), index=True)
+    geom = Column(Geometry('POINT', srid=4326, spatial_index=False))
     data_year = Column(Integer(), nullable=True)
     prdct_ver = Column(DateTime, default=None)
     x = Column(Float(), nullable=True)
@@ -27,6 +28,8 @@ class School(SchoolshBase):
 
 class SchoolWithDescription(SchoolshBase):
     __tablename__ = "schools_with_description"
+    __table_args__ = (Index('ix_schools_schools_with_description_geom', 'geom', postgresql_using='gist'),)
+
     id = Column(BigInteger(), autoincrement=True, primary_key=True, index=True)
     data_year = Column(Integer(), nullable=True)
     school_id = Column(Integer(), nullable=True, index=True)
@@ -46,7 +49,7 @@ class SchoolWithDescription(SchoolshBase):
     highest_grade = Column(Integer(), nullable=True)
     foundation_year = Column(Integer(), nullable=True)
     location_accuracy = Column(Text(), nullable=True)
-    geom = Column(Geometry('POINT', srid=4326), index=True)
+    geom = Column(Geometry('POINT', srid=4326, spatial_index=False))
     x = Column(Float(), nullable=True)
     y = Column(Float(), nullable=True)
     longitude = Column(Float(), nullable=True)
@@ -74,6 +77,7 @@ class InjuredAroundSchool(SchoolshBase):
 
 class InjuredAroundSchoolAllData(SchoolshBase):
     __tablename__ = "injured_around_school_all_data"
+    __table_args__ = (Index('ix_schools_injured_around_school_all_data_markers_geom', 'markers_geom', postgresql_using='gist'),)
     id = Column(BigInteger(), autoincrement=True, primary_key=True, index=True)
     school_id = Column(Float(), nullable=False, index=True)
     markers_provider_and_id = Column(BigInteger())
@@ -139,7 +143,7 @@ class InjuredAroundSchoolAllData(SchoolshBase):
     markers_y = Column(Float())
     markers_vehicle_type_rsa = Column(Text())
     markers_violation_type_rsa = Column(Text())
-    markers_geom = Column(Geometry('POINT'))
+    markers_geom = Column(Geometry('POINT', srid=4326, spatial_index=False))
     involved_provider_and_id = Column(BigInteger())
     involved_provider_code = Column(Float())
     involved_accident_id = Column(BigInteger())

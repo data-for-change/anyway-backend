@@ -82,7 +82,6 @@ from anyway.common.models.cbs_models import (AccidentMarker,
                       ProviderCode,
                       VehicleDamage)
 from anyway.core.utils import Utils
-from anyway.common.views.cbs_views import VIEWS
 
 failed_dirs = OrderedDict()
 localization = Localization()
@@ -289,27 +288,6 @@ def get_streets(accident, streets):
     return main_street, secondary_street
 
 
-def get_non_urban_intersection(accident, roads):
-    """
-    extracts the non-urban-intersection from an accident
-    """
-    non_urban_intersection_value = accident.get(field_names.non_urban_intersection)
-    if non_urban_intersection_value is not None and not math.isnan(non_urban_intersection_value):
-        road1 = accident.get(field_names.road1)
-        road2 = accident.get(field_names.road2)
-        km = accident.get(field_names.km)
-        key = (road1, road2, km)
-        junction = roads.get(key, None)
-        if junction is None:
-            road2 = 0 if road2 is None or math.isnan(road2) else road2
-            km = 0 if km is None or math.isnan(km) else km
-            if road2 == 0 or km == 0:
-                key = (road1, road2, km)
-                junction = roads.get(key, None)
-        return junction
-    return None
-
-
 def get_non_urban_intersection_by_junction_number(accident, non_urban_intersection):
     non_urban_intersection_value = accident.get(field_names.non_urban_intersection)
     if non_urban_intersection_value is not None and not math.isnan(non_urban_intersection_value):
@@ -416,10 +394,22 @@ def load_extra_data(accident, streets, roads):
 def get_data_value(value):
     """
     :returns: value for parameters which are not mandatory in an accident data
-    OR -1 if the parameter value does not exist
+    OR None if the parameter value does not exist
     """
     return None if value is None or math.isnan(value) else int(value)
 
+def get_km_data(accident):
+    """
+    :returns: km as a flot, km_accurate as boolean, km_raw
+    """
+    km_raw = accident.get(field_names.km)
+    km = accident.get(field_names.km)
+    km = None if km is None or math.isnan(km) else str(km)
+    km_accurate = None
+    if km is not None:
+        km_accurate = False if '-' in km else True
+        km = float(km.strip('-'))
+    return km, km_accurate, km_raw
 
 def create_marker(accident, streets, roads, non_urban_intersection):
     if field_names.x not in accident or field_names.y not in accident:
@@ -431,13 +421,9 @@ def create_marker(accident, streets, roads, non_urban_intersection):
     else:
         lng, lat = None, None  # Must insert everything to avoid foreign key failure
     main_street, secondary_street = get_streets(accident, streets)
-    km = accident.get(field_names.km)
-    km = None if km is None or math.isnan(km) else str(km)
-    km_accurate = None
-    if km is not None:
-        km_accurate = False if '-' in km else True
-        km = float(km.strip('-'))
+    km, km_accurate, km_raw = get_km_data(accident)
     accident_datetime = parse_date(accident)
+
     marker = {
         "id": int(accident.get(field_names.id)),
         "provider_and_id": int(str(int(accident.get(field_names.file_type))) + str(int(accident.get(field_names.id)))),
@@ -451,6 +437,7 @@ def create_marker(accident, streets, roads, non_urban_intersection):
         "accident_type": get_data_value(accident.get(field_names.accident_type)),
         "accident_severity": get_data_value(accident.get(field_names.accident_severity)),
         "created": accident_datetime,
+        "accident_timestamp": accident_datetime,
         "location_accuracy": get_data_value(accident.get(field_names.location_accuracy)),
         "road_type": get_data_value(accident.get(field_names.road_type)),
         "road_shape": get_data_value(accident.get(field_names.road_shape)),
@@ -478,7 +465,7 @@ def create_marker(accident, streets, roads, non_urban_intersection):
         "road1": get_data_value(accident.get(field_names.road1)),
         "road2": get_data_value(accident.get(field_names.road2)),
         "km": km,
-        "km_raw": get_data_value(accident.get(field_names.km)),
+        "km_raw": km_raw,
         "km_accurate": km_accurate,
         "yishuv_symbol": get_data_value(accident.get(field_names.yishuv_symbol)),
         "yishuv_name": localization.get_city_name(symbol_id=accident.get(field_names.yishuv_symbol)),
@@ -492,17 +479,18 @@ def create_marker(accident, streets, roads, non_urban_intersection):
         "municipal_status": get_data_value(accident.get(field_names.municipal_status)),
         "yishuv_shape": get_data_value(accident.get(field_names.yishuv_shape)),
         "street1": get_data_value(accident.get(field_names.street1)),
-        "street1_hebrew": get_street(accident.get(field_names.yishuv_symbol), accident.get(field_names.street1),
+        "street1_hebrew": get_street(accident.get(field_names.yishuv_symbol),
+                                     accident.get(field_names.street1),
                                      streets),
         "street2": get_data_value(accident.get(field_names.street2)),
-        "street2_hebrew": get_street(accident.get(field_names.yishuv_symbol), accident.get(field_names.street2),
+        "street2_hebrew": get_street(accident.get(field_names.yishuv_symbol),
+                                     accident.get(field_names.street2),
                                      streets),
         "house_number": get_data_value(accident.get(field_names.house_number)),
         "urban_intersection": get_data_value(accident.get(field_names.urban_intersection)),
         "non_urban_intersection": get_data_value(accident.get(field_names.non_urban_intersection)),
-        "non_urban_intersection_hebrew": get_non_urban_intersection(accident, roads),
-        "non_urban_intersection_by_junction_number": get_non_urban_intersection_by_junction_number(accident,
-                                                                                                   non_urban_intersection),
+        "non_urban_intersection_hebrew": get_non_urban_intersection_by_junction_number(accident,
+                                                                                        non_urban_intersection),
         "accident_year": get_data_value(accident.get(field_names.accident_year)),
         "accident_month": get_data_value(accident.get(field_names.accident_month)),
         "accident_day": get_data_value(accident.get(field_names.accident_day)),
@@ -796,7 +784,7 @@ def fill_db_geo_data():
     Fills empty geometry object according to coordinates in database
     SRID = 4326
     """
-    db.session.execute('UPDATE markers SET geom = ST_SetSRID(ST_MakePoint(longitude,latitude),4326)\
+    db.session.execute('UPDATE cbs.markers SET geom = ST_SetSRID(ST_MakePoint(longitude,latitude),4326)\
                            WHERE geom IS NULL;')
     db.session.commit()
 
@@ -871,21 +859,6 @@ def create_provider_code_table():
         db.session.commit()
 
 
-def create_views():
-    db.session.execute('DROP VIEW IF EXISTS cbs.involved_markers_hebrew')
-    db.session.execute('DROP VIEW IF EXISTS cbs.vehicles_markers_hebrew')
-    db.session.execute('DROP VIEW IF EXISTS cbs.markers_hebrew')
-    db.session.execute('CREATE OR REPLACE VIEW cbs.markers_hebrew AS ' + VIEWS.MARKERS_HEBREW_VIEW)
-    db.session.execute('DROP VIEW IF EXISTS cbs.involved_hebrew')
-    db.session.execute('CREATE OR REPLACE VIEW cbs.involved_hebrew AS ' + VIEWS.INVOLVED_HEBREW_VIEW)
-    db.session.execute('DROP VIEW IF EXISTS cbs.vehicles_hebrew')
-    db.session.execute('CREATE OR REPLACE VIEW cbs.vehicles_hebrew AS ' + VIEWS.VEHICLES_HEBREW_VIEW)
-    db.session.execute('CREATE OR REPLACE VIEW cbs.involved_markers_hebrew AS ' + VIEWS.INVOLVED_HEBREW_MARKERS_HEBREW_VIEW)
-    db.session.execute('CREATE OR REPLACE VIEW cbs.vehicles_markers_hebrew AS ' + VIEWS.VEHICLES_MARKERS_HEBREW_VIEW)
-    db.session.commit()
-    logging.info('Created DB Views')
-
-
 def update_dictionary_tables(dir_name):
     dir_list = glob.glob("{0}/*/*".format(dir_name))
 
@@ -948,6 +921,4 @@ def main(delete_all=True,
         logging.info("Finished processing all directories{0}{1}".format(", except:\n" if failed else "",
                                                                         "\n".join(failed)))
         logging.info("Total: {0} items in {1}".format(total, Utils.time_delta(started)))
-
-        create_views()
 

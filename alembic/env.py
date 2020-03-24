@@ -8,10 +8,10 @@ import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from anyway.core.database import Base,
-                                 CBSBase,
-                                 NewsFlashBase,
-                                 SchoolshBase,
+from anyway.core.database import Base, \
+                                 CBSBase, \
+                                 NewsFlashBase, \
+                                 SchoolshBase, \
                                  MobileAppBase
 
 from anyway.core.database import schemas_ignored_in_migration, tables_ignored_in_migration
