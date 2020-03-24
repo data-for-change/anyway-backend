@@ -13,3 +13,7 @@ NewsFlashBase = declarative_base(metadata=MetaData(schema='news_flash'))
 SchoolshBase = declarative_base(metadata=MetaData(schema='schools'))
 
 MobileAppBase = declarative_base(metadata=MetaData(schema='mobile_app'))
+
+schemas_ignored_in_migration = ['tiger', 'tiger_data', 'topology']
+
+tables_ignored_in_migration = ['spatial_ref_sys']
