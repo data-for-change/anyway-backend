@@ -1,4 +1,4 @@
-"""add schemas
+"""Initial - add schemas
 
 Revision ID: 461371575299
 Revises: 687465b3b8f1
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = '461371575299'
-down_revision = '687465b3b8f1'
+down_revision = None
 branch_labels = None
 depends_on = None
 
