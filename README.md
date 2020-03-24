@@ -46,4 +46,4 @@ When creating a patch that alters the database schema, you should use generate t
 
 `docker exec -it anyway-backend_anyway_1 bash -c "alembic revision --autogenerate -m 'Description of the change'"`
 
-```
+Make sure to commit your revision together with the code.
