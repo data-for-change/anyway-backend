@@ -1,7 +1,7 @@
 import pandas as pd
 from anyway import db
 from anyway.core.utils import Utils
-from anyway.apis.common.models.news_flash_models import NewsFlash
+from anyway.common.models.news_flash_models import NewsFlash
 
 
 def _remove_nan_from_dict(row_dict):

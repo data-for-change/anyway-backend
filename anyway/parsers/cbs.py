@@ -22,7 +22,7 @@ from sqlalchemy import or_, and_
 from anyway.core import field_names
 from anyway.core.localization import Localization
 from anyway.core.constants import CONST
-from anyway.apis.common.models.cbs_models import (AccidentMarker,
+from anyway.common.models.cbs_models import (AccidentMarker,
                       Involved,
                       Vehicle,
                       ColumnsDescription,
@@ -82,7 +82,7 @@ from anyway.apis.common.models.cbs_models import (AccidentMarker,
                       ProviderCode,
                       VehicleDamage)
 from anyway.core.utils import Utils
-from anyway.apis.common.views.cbs_views import VIEWS
+from anyway.common.views.cbs_views import VIEWS
 
 failed_dirs = OrderedDict()
 localization = Localization()

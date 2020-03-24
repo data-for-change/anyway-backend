@@ -8,7 +8,11 @@ import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-from anyway.core.database import Base, CBSBase, NewsFlashBase, SchoolshBase, MobileAppBase
+from anyway.core.database import Base,
+                                 CBSBase,
+                                 NewsFlashBase,
+                                 SchoolshBase,
+                                 MobileAppBase
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -23,7 +27,11 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = [CBSBase.metadata, NewsFlashBase.metadata, Base.metadata, SchoolshBase.metadata, MobileAppBase.metadata]
+target_metadata = [CBSBase.metadata,
+                   NewsFlashBase.metadata,
+                   Base.metadata,
+                   SchoolshBase.metadata,
+                   MobileAppBase.metadata]
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
 # my_important_option = config.get_main_option("my_important_option")

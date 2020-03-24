@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from openpyxl import load_workbook
 
 from anyway.core.utils import Utils
-from anyway.apis.common.models.cbs_models import RoadSegments
+from anyway.common.models.cbs_models import RoadSegments
 
 
 def _iter_rows(filename):

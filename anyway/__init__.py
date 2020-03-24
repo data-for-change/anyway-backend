@@ -36,7 +36,10 @@ app.config['RESTPLUS_MASK_SWAGGER'] = False
 
 db = SQLAlchemy(app)
 
-from anyway.apis.common.models import cbs_models, news_flash_models, schools_models, public_models, mobile_app_models
+from anyway.common.models import cbs_models,
+                                 news_flash_models,
+                                 schools_models,
+                                 mobile_app_models
 
 assets = Environment()
 assets.init_app(app)
