@@ -37,3 +37,13 @@ docker-postgis - Dockerfile, initdb-postgis.sh and update-postgis.sh where inspi
 3. `docker exec -it anyway-backend_anyway_1 bash -c "python main.py process road-segments"`
 4. `docker exec -it anyway-backend_anyway_1 bash -c "python main.py process cbs"`
 5. Grab a cup of coffee, this will take ~1 hour
+
+#### Altering the database using alembic
+1. Adding a schema: create a schema revision, [for example](https://github.com/hasadna/anyway-backend/blob/dev/alembic/versions/ab9834c903dd_add_waze_schema.py)
+2. Adding or modifying a table:
+When creating a patch that alters the database schema, you should use generate the appropriate
+[Alembic](http://alembic.zzzcomputing.com/en/latest/index.html) revision by running:
+
+`docker exec -it anyway-backend_anyway_1 bash -c "alembic revision --autogenerate -m 'Description of the change'"`
+
+```
