@@ -23,5 +23,53 @@ services:
       - db_data:/var/lib/postgresql/data  
     restart: always
 
+  airflow-postgres:
+    image: "postgres:9.6.17"
+    container_name: "airflow-postgres"
+    environment:
+      - POSTGRES_USER=airflow
+      - POSTGRES_PASSWORD=airflow
+      - POSTGRES_DB=airflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./airflow_postgres_data:/var/lib/postgresql/data
+
+  airflow-initdb:
+    build: ./processing_pipeline
+    entrypoint: airflow initdb
+    depends_on:
+      - airflow-postgres
+
+  airflow-webserver:
+    build: ./processing_pipeline
+    restart: always
+    depends_on:
+      - airflow-postgres
+    volumes:
+      - ./processing_pipeline:/usr/local/airflow/dags
+    ports:
+      - "8080:8080"
+    entrypoint: airflow webserver
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  airflow-scheduler:
+    build: ./processing_pipeline
+    restart: always
+    depends_on:
+      - airflow-postgres
+    volumes:
+      - ./processing_pipeline:/usr/local/airflow/dags
+    entrypoint: airflow scheduler
+    healthcheck:
+      test: ["CMD-SHELL", "[ -f /usr/local/airflow/airflow-scheduler.pid ]"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
 volumes: 
   db_data:
