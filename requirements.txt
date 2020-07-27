@@ -1,5 +1,5 @@
 PyYAML==5.3
-apache-airflow==1.10.7
+apache-airflow==1.10.11
 alembic==1.2.1
 amqp==2.5.1
 aniso8601==7.0.0
