@@ -109,7 +109,7 @@ queuelib==1.5.0
 rauth==0.7.3
 redis==3.3.11
 requests==2.22.0
-rsa==4.0
+rsa==4.1
 Rx==1.6.1
 Scrapy==1.7.3
 selenium==3.141.0
